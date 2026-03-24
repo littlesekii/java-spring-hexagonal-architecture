@@ -2,6 +2,8 @@ package com.littlesekii.hexagonal_architecture.core.domain;
 
 import java.util.Optional;
 
+import com.littlesekii.hexagonal_architecture.core.exception.InvalidArgumentException;
+
 public class User {
     
     private Long id;
@@ -26,9 +28,9 @@ public class User {
 
     public void validate() {
         if (username == null || username.isEmpty())
-            throw new IllegalArgumentException("username cannot be blank");
+            throw new InvalidArgumentException("username cannot be blank");
         if (name == null || username.isEmpty())
-            throw new IllegalArgumentException("name cannot be blank");
+            throw new InvalidArgumentException("name cannot be blank");
     }
     
     public Long getId() {

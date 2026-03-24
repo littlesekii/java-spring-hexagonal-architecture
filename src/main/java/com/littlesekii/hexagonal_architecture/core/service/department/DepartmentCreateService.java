@@ -1,6 +1,7 @@
 package com.littlesekii.hexagonal_architecture.core.service.department;
 
 import com.littlesekii.hexagonal_architecture.core.domain.Department;
+import com.littlesekii.hexagonal_architecture.core.exception.IntegrityViolationException;
 import com.littlesekii.hexagonal_architecture.core.ports.in.department.DepartmentCreateUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.DepartmentRepositoryPort;
 
@@ -17,7 +18,7 @@ public class DepartmentCreateService implements DepartmentCreateUseCase {
         data.validate();
 
         if (repositoryPort.existsByName(data.getName()))
-            throw new RuntimeException("a department with this name already exists");
+            throw new IntegrityViolationException("a department with this name already exists");
 
         return repositoryPort.save(data);
     }

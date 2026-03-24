@@ -1,6 +1,8 @@
 package com.littlesekii.hexagonal_architecture.core.service.user;
 
 import com.littlesekii.hexagonal_architecture.core.domain.User;
+import com.littlesekii.hexagonal_architecture.core.exception.IntegrityViolationException;
+import com.littlesekii.hexagonal_architecture.core.exception.notFound.UserNotFoundException;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserUpdateUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
 
@@ -17,13 +19,13 @@ public class UserUpdateService implements UserUpdateUseCase {
         data.validate();
 
         User existing = repositoryPort.findById(id)
-            .orElseThrow(() -> new RuntimeException("user not found"));
+            .orElseThrow(() -> new UserNotFoundException());
 
         if (
             !existing.getUsername().equals(data.getUsername()) && 
             repositoryPort.existsByUsername(data.getUsername())
         ) {
-            throw new RuntimeException("this username is already taken");
+            throw new IntegrityViolationException("this username is already taken");
         }
 
         existing.updateUsername(data.getUsername());

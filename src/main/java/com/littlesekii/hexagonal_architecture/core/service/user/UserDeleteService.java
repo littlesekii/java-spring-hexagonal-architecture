@@ -1,5 +1,6 @@
 package com.littlesekii.hexagonal_architecture.core.service.user;
 
+import com.littlesekii.hexagonal_architecture.core.exception.notFound.UserNotFoundException;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserDeleteUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
 
@@ -14,7 +15,7 @@ public class UserDeleteService implements UserDeleteUseCase {
     @Override
     public void execute(Long id) {
         repositoryPort.findById(id)
-            .orElseThrow(() -> new RuntimeException("user not found"));
+            .orElseThrow(() -> new UserNotFoundException());
 
         repositoryPort.deleteById(id);
     }

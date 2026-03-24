@@ -1,5 +1,7 @@
 package com.littlesekii.hexagonal_architecture.core.domain;
 
+import com.littlesekii.hexagonal_architecture.core.exception.InvalidArgumentException;
+
 public class Department {
 
     private Long id;
@@ -13,7 +15,7 @@ public class Department {
 
     public void validate() {
         if (name == null || name.isEmpty())
-            throw new IllegalArgumentException("name cannot be blank");
+            throw new InvalidArgumentException("name cannot be blank");
     }
 
     public Long getId() {
