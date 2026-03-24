@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserCreateRequest;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserUpdateRequest;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserCreateUseCase;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserDeleteUseCase;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserFindAllUseCase;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserFindByIdUseCase;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserPartialUpdateUseCase;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserUpdateUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserCreateUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserDeleteUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindAllUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindByIdUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserPartialUpdateUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserUpdateUseCase;
 
 
 
@@ -53,8 +53,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() 
-    {
+    public ResponseEntity<List<UserResponse>> findAll() {
         List<UserResponse> res = userFindAllUseCase.execute().stream()
             .map(UserResponse::fromDomain)
             .toList();
@@ -63,14 +62,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> findById(@PathVariable Long id) 
-    {
+    public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
         UserResponse res = UserResponse.fromDomain(userFindByIdUseCase.execute(id));
         return ResponseEntity.ok().body(res);
     }
     
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody UserCreateRequest req) {
+    public ResponseEntity<Void> create(@RequestBody UserCreateRequest req) {
         userCreateUseCase.execute(req.toDomain());
         return ResponseEntity.status(201).build();
     }

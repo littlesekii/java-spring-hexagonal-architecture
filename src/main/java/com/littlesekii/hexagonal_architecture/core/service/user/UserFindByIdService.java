@@ -1,7 +1,7 @@
-package com.littlesekii.hexagonal_architecture.core.service;
+package com.littlesekii.hexagonal_architecture.core.service.user;
 
 import com.littlesekii.hexagonal_architecture.core.domain.User;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserFindByIdUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindByIdUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
 
 public class UserFindByIdService implements UserFindByIdUseCase {

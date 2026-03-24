@@ -1,9 +1,9 @@
-package com.littlesekii.hexagonal_architecture.core.service;
+package com.littlesekii.hexagonal_architecture.core.service.user;
 
 import java.util.List;
 
 import com.littlesekii.hexagonal_architecture.core.domain.User;
-import com.littlesekii.hexagonal_architecture.core.ports.in.UserFindAllUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindAllUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
 
 public class UserFindAllService implements UserFindAllUseCase {

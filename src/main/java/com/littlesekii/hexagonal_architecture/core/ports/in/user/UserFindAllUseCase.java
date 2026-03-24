@@ -1,4 +1,4 @@
-package com.littlesekii.hexagonal_architecture.core.ports.in;
+package com.littlesekii.hexagonal_architecture.core.ports.in.user;
 
 import java.util.List;
 

@@ -6,18 +6,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
-import com.littlesekii.hexagonal_architecture.core.service.UserCreateService;
-import com.littlesekii.hexagonal_architecture.core.service.UserDeleteService;
-import com.littlesekii.hexagonal_architecture.core.service.UserFindAllService;
-import com.littlesekii.hexagonal_architecture.core.service.UserFindByIdService;
-import com.littlesekii.hexagonal_architecture.core.service.UserPartialUpdateService;
-import com.littlesekii.hexagonal_architecture.core.service.UserUpdateService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserCreateService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserDeleteService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserFindAllService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserFindByIdService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserPartialUpdateService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserUpdateService;
 
 @Configuration
 @EnableTransactionManagement
-public class BeanConfig {
+public class UserBeanConfig {
     
-
     @Bean
     public UserFindAllService userFindAllService(UserRepositoryPort repositoryPort) {
         return new UserFindAllService(repositoryPort);
