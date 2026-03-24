@@ -5,7 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.littlesekii.hexagonal_architecture.core.ports.out.DepartmentRepositoryPort;
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserChangeDepartmentService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserCreateService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserDeleteService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserFindAllService;
@@ -49,5 +51,11 @@ public class UserBeanConfig {
     @Transactional
     public UserDeleteService userDeleteService(UserRepositoryPort repositoryPort) {
         return new UserDeleteService(repositoryPort);
+    }
+
+    @Bean
+    @Transactional
+    public UserChangeDepartmentService userChangeDepartmentService(UserRepositoryPort repositoryPort, DepartmentRepositoryPort departmentRepositoryPort) {
+        return new UserChangeDepartmentService(repositoryPort, departmentRepositoryPort);
     }
 }

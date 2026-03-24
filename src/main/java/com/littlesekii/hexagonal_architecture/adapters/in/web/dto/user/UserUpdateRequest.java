@@ -7,7 +7,8 @@ public record UserUpdateRequest(String username, String name) {
         return new User(
             null, 
             username,
-            name
+            name,
+            null
         );
     }
 }

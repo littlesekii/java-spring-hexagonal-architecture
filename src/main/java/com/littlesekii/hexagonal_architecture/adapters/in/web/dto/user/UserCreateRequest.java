@@ -8,7 +8,8 @@ public record UserCreateRequest(String username, String name) {
         return new User(
             null, 
             username,
-            name
+            name,
+            null
         );
     }
 }

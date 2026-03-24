@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserChangeDepartmentRequest;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserCreateRequest;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserUpdateRequest;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserChangeDepartmentUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserCreateUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserDeleteUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindAllUseCase;
@@ -35,6 +37,7 @@ public class UserController {
     private final UserUpdateUseCase userUpdateUseCase; 
     private final UserPartialUpdateUseCase userPartialUpdateUseCase;
     private final UserDeleteUseCase userDeleteUseCase;
+    private final UserChangeDepartmentUseCase userChangeDepartmentUseCase;
 
     public UserController(
         UserFindAllUseCase userFindAllUseCase,
@@ -42,7 +45,8 @@ public class UserController {
         UserCreateUseCase userCreateUseCase,
         UserUpdateUseCase userUpdateUseCase,
         UserPartialUpdateUseCase userPartialUpdateUseCase,
-        UserDeleteUseCase userDeleteUseCase
+        UserDeleteUseCase userDeleteUseCase,
+        UserChangeDepartmentUseCase userChangeDepartmentUseCase
     ) {
         this.userFindAllUseCase = userFindAllUseCase;
         this.userFindByIdUseCase = userFindByIdUseCase;
@@ -50,6 +54,7 @@ public class UserController {
         this.userUpdateUseCase = userUpdateUseCase;
         this.userPartialUpdateUseCase = userPartialUpdateUseCase;
         this.userDeleteUseCase = userDeleteUseCase;
+        this.userChangeDepartmentUseCase = userChangeDepartmentUseCase;
     }
 
     @GetMapping
@@ -88,6 +93,12 @@ public class UserController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         userDeleteUseCase.execute(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/change-department")
+    public ResponseEntity<Void> changeDepartment(@PathVariable Long id, @RequestBody UserChangeDepartmentRequest req) {
+        userChangeDepartmentUseCase.execute(id, req.departmentId());
+        return ResponseEntity.status(200).build();
     }
     
 }
