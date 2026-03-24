@@ -20,17 +20,17 @@ public class DepartmentPartialUpdateService implements DepartmentPartialUpdateUs
         Department existing = repositoryPort.findById(id)
             .orElseThrow(() -> new DepartmentNotFoundException());
 
-        if (data.getName() != null)
-            existing.updateName(data.getName());
-
-        existing.validate();
-
         if (
             !existing.getName().equals(data.getName()) && 
             repositoryPort.existsByName(data.getName())
         ) {
             throw new IntegrityViolationException("a department with this name already exists");
         }
+
+        if (data.getName() != null)
+            existing.updateName(data.getName());
+
+        existing.validate();
 
         return repositoryPort.save(existing);
     }

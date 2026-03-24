@@ -20,6 +20,13 @@ public class UserPartialUpdateService implements UserPartialUpdateUseCase {
         User existing = repositoryPort.findById(id)
             .orElseThrow(() -> new UserNotFoundException());
 
+        if (
+            !existing.getUsername().equals(data.getUsername()) && 
+            repositoryPort.existsByUsername(data.getUsername())
+        ) {
+            throw new IntegrityViolationException("this username is already taken");
+        }
+
         if (data.getUsername() != null)
             existing.updateUsername(data.getUsername());
 
@@ -27,13 +34,6 @@ public class UserPartialUpdateService implements UserPartialUpdateUseCase {
             existing.updateName(data.getName());
 
         existing.validate();
-
-        if (
-            !existing.getUsername().equals(data.getUsername()) && 
-            repositoryPort.existsByUsername(data.getUsername())
-        ) {
-            throw new IntegrityViolationException("this username is already taken");
-        }
 
         return repositoryPort.save(existing);
     }
