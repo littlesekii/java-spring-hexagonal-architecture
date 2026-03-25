@@ -29,8 +29,9 @@ public class User {
     public void validate() {
         if (username == null || username.isEmpty())
             throw new InvalidArgumentException("username cannot be blank");
-        if (name == null || username.isEmpty())
-            throw new InvalidArgumentException("name cannot be blank");
+
+        if (name == null || name.isEmpty())
+            throw new InvalidArgumentException("name cannot be blank");   
     }
     
     public Long getId() {
