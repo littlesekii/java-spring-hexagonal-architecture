@@ -49,7 +49,7 @@ public class ControllerExceptionHandler {
     public ResponseEntity<ExceptionResponse> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         ExceptionResponse res = new ExceptionResponse(
             Instant.now(),
-            HttpStatus.BAD_REQUEST.value(),
+            HttpStatus.NOT_FOUND.value(),
             "Resource not found",
             e.errorCode(),
             e.getMessage(),
