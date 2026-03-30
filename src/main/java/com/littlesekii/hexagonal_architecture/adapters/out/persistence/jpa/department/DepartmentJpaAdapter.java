@@ -3,10 +3,16 @@ package com.littlesekii.hexagonal_architecture.adapters.out.persistence.jpa.depa
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Component;
 
 import com.littlesekii.hexagonal_architecture.core.domain.Department;
 import com.littlesekii.hexagonal_architecture.core.ports.out.DepartmentRepositoryPort;
+import com.littlesekii.hexagonal_architecture.core.wrapper.PageWrapper;
 
 @Component
 public class DepartmentJpaAdapter implements DepartmentRepositoryPort {
@@ -23,6 +29,22 @@ public class DepartmentJpaAdapter implements DepartmentRepositoryPort {
             .map(DepartmentJpaEntity::toDomain)
             .toList();
     }
+    @Override
+    public PageWrapper<Department> findAllPaged(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Order.desc("id")));
+
+        Page<DepartmentJpaEntity> entityPage = repository.findAll(pageable);
+
+        return new PageWrapper<Department>(
+            entityPage.getContent().stream()
+                .map(DepartmentJpaEntity::toDomain)
+                .toList(), 
+            entityPage.getNumber(), 
+            entityPage.getSize(),
+            entityPage.getTotalElements(), 
+            entityPage.getTotalPages()
+        );
+    } 
 
     @Override
     public Optional<Department> findById(Long id) {
@@ -45,5 +67,5 @@ public class DepartmentJpaAdapter implements DepartmentRepositoryPort {
     @Override
     public boolean existsByName(String name) {
         return repository.existsByName(name);
-    } 
+    }
 }

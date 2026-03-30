@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.littlesekii.hexagonal_architecture.core.ports.out.DepartmentRepositoryPort;
 import com.littlesekii.hexagonal_architecture.core.service.department.DepartmentCreateService;
 import com.littlesekii.hexagonal_architecture.core.service.department.DepartmentDeleteService;
+import com.littlesekii.hexagonal_architecture.core.service.department.DepartmentFindAllPagedService;
 import com.littlesekii.hexagonal_architecture.core.service.department.DepartmentFindAllService;
 import com.littlesekii.hexagonal_architecture.core.service.department.DepartmentFindByIdService;
 import com.littlesekii.hexagonal_architecture.core.service.department.DepartmentPartialUpdateService;
@@ -20,6 +21,11 @@ public class DepartmentBeanConfig {
     @Bean
     public DepartmentFindAllService DepartmentFindAllService(DepartmentRepositoryPort repositoryPort) {
         return new DepartmentFindAllService(repositoryPort);
+    }
+
+    @Bean
+    public DepartmentFindAllPagedService DepartmentFindAllPagedService(DepartmentRepositoryPort repositoryPort) {
+        return new DepartmentFindAllPagedService(repositoryPort);
     }
 
     @Bean
