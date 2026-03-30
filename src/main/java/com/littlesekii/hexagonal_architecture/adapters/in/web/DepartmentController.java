@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.DepartmentPageResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.PageRequest;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.department.DepartmentCreateRequest;
+import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.department.DepartmentPageResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.department.DepartmentResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.department.DepartmentUpdateRequest;
 import com.littlesekii.hexagonal_architecture.core.ports.in.department.DepartmentCreateUseCase;
