@@ -1,6 +1,7 @@
 package com.littlesekii.hexagonal_architecture.core.service.user;
 
 import com.littlesekii.hexagonal_architecture.core.domain.User;
+import com.littlesekii.hexagonal_architecture.core.exception.InvalidArgumentException;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindAllPagedUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
 import com.littlesekii.hexagonal_architecture.core.wrapper.PageWrapper;
@@ -19,7 +20,10 @@ public class UserFindAllPagedService implements UserFindAllPagedUseCase {
             page = 0;
         if (size == null)
             size = 10;
-        
+
+        if (size <= 0) 
+            throw new InvalidArgumentException("page size must be at least one");
+
         return repositoryPort.findAllPaged(page, size);
     }
     

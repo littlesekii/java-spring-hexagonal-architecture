@@ -1,6 +1,7 @@
 package com.littlesekii.hexagonal_architecture.core.service.department;
 
 import com.littlesekii.hexagonal_architecture.core.domain.Department;
+import com.littlesekii.hexagonal_architecture.core.exception.InvalidArgumentException;
 import com.littlesekii.hexagonal_architecture.core.ports.in.department.DepartmentFindAllPagedUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.out.DepartmentRepositoryPort;
 import com.littlesekii.hexagonal_architecture.core.wrapper.PageWrapper;
@@ -19,6 +20,9 @@ public class DepartmentFindAllPagedService implements DepartmentFindAllPagedUseC
             page = 0;
         if (size == null)
             size = 10;
+
+        if (size <= 0) 
+        throw new InvalidArgumentException("page size must be at least one");
 
         return repositoryPort.findAllPaged(page, size);
     }

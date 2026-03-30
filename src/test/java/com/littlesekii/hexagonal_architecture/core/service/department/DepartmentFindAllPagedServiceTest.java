@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.littlesekii.hexagonal_architecture.core.domain.Department;
+import com.littlesekii.hexagonal_architecture.core.exception.InvalidArgumentException;
 import com.littlesekii.hexagonal_architecture.core.ports.out.DepartmentRepositoryPort;
 import com.littlesekii.hexagonal_architecture.core.wrapper.PageWrapper;
 
@@ -107,5 +108,25 @@ public class DepartmentFindAllPagedServiceTest {
         Assertions.assertTrue(result.content().isEmpty());
 
         Mockito.verify(repositoryPort).findAllPaged(defaultPage, defaultSize);
+    }
+
+    @Test
+    void findAllPaged_withZeroSize_throwsException() {
+        Throwable exception = Assertions.assertThrowsExactly(
+            InvalidArgumentException.class,
+            () -> service.execute(0, 0)
+        );
+
+        Assertions.assertEquals("page size must be at least one", exception.getMessage());
+    }
+
+    @Test
+    void findAllPaged_withNegativeSize_throwsException() {
+        Throwable exception = Assertions.assertThrowsExactly(
+            InvalidArgumentException.class,
+            () -> service.execute(0, -1)
+        );
+
+        Assertions.assertEquals("page size must be at least one", exception.getMessage());
     }
 }
