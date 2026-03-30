@@ -1,10 +1,9 @@
 package com.littlesekii.hexagonal_architecture.adapters.in.web;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +12,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.PageRequest;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserChangeDepartmentRequest;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserCreateRequest;
+import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserPageResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserResponse;
 import com.littlesekii.hexagonal_architecture.adapters.in.web.dto.user.UserUpdateRequest;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserChangeDepartmentUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserCreateUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserDeleteUseCase;
+import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindAllPagedUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindAllUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserFindByIdUseCase;
 import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserPartialUpdateUseCase;
@@ -32,6 +34,7 @@ import com.littlesekii.hexagonal_architecture.core.ports.in.user.UserUpdateUseCa
 public class UserController {
     
     private final UserFindAllUseCase userFindAllUseCase;
+    private final UserFindAllPagedUseCase userFindAllPagedUseCase;
     private final UserFindByIdUseCase userFindByIdUseCase;
     private final UserCreateUseCase userCreateUseCase;
     private final UserUpdateUseCase userUpdateUseCase; 
@@ -41,6 +44,7 @@ public class UserController {
 
     public UserController(
         UserFindAllUseCase userFindAllUseCase,
+        UserFindAllPagedUseCase userFindAllPagedUseCase,
         UserFindByIdUseCase userFindByIdUseCase,
         UserCreateUseCase userCreateUseCase,
         UserUpdateUseCase userUpdateUseCase,
@@ -49,6 +53,7 @@ public class UserController {
         UserChangeDepartmentUseCase userChangeDepartmentUseCase
     ) {
         this.userFindAllUseCase = userFindAllUseCase;
+        this.userFindAllPagedUseCase = userFindAllPagedUseCase;
         this.userFindByIdUseCase = userFindByIdUseCase;
         this.userCreateUseCase = userCreateUseCase;
         this.userUpdateUseCase = userUpdateUseCase;
@@ -58,11 +63,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> findAll() {
-        List<UserResponse> res = userFindAllUseCase.execute().stream()
-            .map(UserResponse::fromDomain)
-            .toList();
-            
+    public ResponseEntity<UserPageResponse> findAll(@ModelAttribute PageRequest req) {
+        UserPageResponse res = UserPageResponse.fromDomainPageWrapper(
+            userFindAllPagedUseCase.execute(req.page(), req.size())
+        );            
         return ResponseEntity.ok().body(res);
     }
 

@@ -10,6 +10,7 @@ import com.littlesekii.hexagonal_architecture.core.ports.out.UserRepositoryPort;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserChangeDepartmentService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserCreateService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserDeleteService;
+import com.littlesekii.hexagonal_architecture.core.service.user.UserFindAllPagedService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserFindAllService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserFindByIdService;
 import com.littlesekii.hexagonal_architecture.core.service.user.UserPartialUpdateService;
@@ -22,6 +23,11 @@ public class UserBeanConfig {
     @Bean
     public UserFindAllService userFindAllService(UserRepositoryPort repositoryPort) {
         return new UserFindAllService(repositoryPort);
+    }
+
+    @Bean
+    public UserFindAllPagedService userFindAllPagedService(UserRepositoryPort repositoryPort) {
+        return new UserFindAllPagedService(repositoryPort);
     }
 
     @Bean
